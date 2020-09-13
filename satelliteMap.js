@@ -73,18 +73,39 @@ document.addEventListener("DOMContentLoaded", function(){
                             .style("color", "white")
 
       const showTooltip = function(d) {
+          const infoShown = `Official Name of Satellite: ${d.name} <br/>
+                          Country of Owner: ${d.country} <br/>
+                          User: ${d.user} <br/>
+                          Purpose: ${d.purpose} <br/>
+                          Class of Orbit: ${d.orbit} <br/> 
+                          Perigee(km): ${d.perigee} <br/>
+                          Launch Site: ${d.launchSite} <br/>
+                          Launch Vehicle: ${d.launchVehicle} <br/>
+                          Date of Launch: ${d.date} <br/>
+                          Launch Mass(kg): ${d.mass}`
+
           tooltip.transition()
                 .duration(200)
           tooltip.style("opacity", 1)
-                .html(`Perigee (km): ${d.perigee}`)
-                .style("left", (d3.mouse(this)[0]+30)+"px")
-                .style("top", (d3.mouse(this)[1]+30)+"px")
+                .html(infoShown)
+                .style("left", (d3.event.pageX)+"px")
+                .style("top", (d3.event.pageY)+"px")
+                .style("display", "inline-block")
       }
 
       const moveTooltip = function(d) {
-          
-          tooltip.style("left", (d3.mouse(this)[0]+30)+"px")
-                .style("top", (d3.mouse(this)[1]+30)+"px")
+        const infoShown = `Official Name of Satellite: ${d.name} <br/>
+                          Country of Owner: ${d.country} <br/>
+                          User: ${d.user} <br/>
+                          Purpose: ${d.purpose} <br/>
+                          Class of Orbit: ${d.orbit} <br/> 
+                          Perigee(km): ${d.perigee} <br/>
+                          Launch Site: ${d.launchSite} <br/>
+                          Launch Vehicle: ${d.launchVehicle} <br/>
+                          Date of Launch: ${d.date} <br/>
+                          Launch Mass(kg): ${d.mass}`
+        tooltip.style("left", (d3.event.pageX + 15) + "px")
+          .style("top", (d3.event.pageY - 28) + "px")
       }
 
       const hideTooltip = function(d) {

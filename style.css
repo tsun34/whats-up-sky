@@ -1,12 +1,12 @@
-main{
+/* main{
     display: flex;
     flex-direction: column;
 }
 
 .satellite-map{
     /* display: block; */
-    margin: 50px 0 0 50px;
-}
+    /* margin: 50px 0 0 50px; */
+/* } */ */
 
 .bubbles{
     stroke-width: 2px;
@@ -18,11 +18,12 @@ main{
 }
 
 .tooltip{
+    position: absolute;
 }
-
+/* 
 .grid line{
     stroke: lightgray;
     stroke-opacity: 0.7;
     shape-rendering: crispEdges;
-}
+} */
 
