@@ -1,16 +1,92 @@
-/* main{
+body{
+    margin: 0;
+    padding: 0;
+}
+
+main{
     display: flex;
     flex-direction: column;
 }
+.navbar{
+    height: 80px;
+    font-size: 42px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+}
+
+.navbar > ul{
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0 50px 0 0;
+    padding: 0;
+}
+
+.navbar > ul > li{
+    margin: 0 15px;
+}
+
+
+.introduction{
+    height: 700px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.introduction::before{
+    content: "";
+    background-image: url("./images/earth.jpg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.2;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+
+.introduction-text{
+    margin: 0 5vw;
+    color: black;
+    font-family: monospace;
+    text-align: center;
+}
+
+.introduction-text > span, h3{
+    margin: 25px 25%;
+}
+
+.intro-title{
+    font-size: 42px;
+    font-family: monospace;
+}
+
+.intro-detail{
+    font-size: 20px;
+    font-weight: 500;
+    font-family: monospace;
+    text-align: left;
+}
 
 .satellite-map{
+    background-color: rgba(255, 255, 255, 0.3);
     /* display: block; */
-    /* margin: 50px 0 0 50px; */
-/* } */ */
+}
+
+.satellite-map > svg{
+    border: none;
+}
 
 .bubbles{
-    stroke-width: 2px;
-    stroke: white;
+    /* stroke-width: 2px; */
+    /* stroke: white; */
+    opacity: 0.5;
 }
 
 .bubbles:hover{
@@ -20,10 +96,12 @@
 .tooltip{
     position: absolute;
 }
-/* 
+
 .grid line{
     stroke: lightgray;
     stroke-opacity: 0.7;
     shape-rendering: crispEdges;
-} */
-
+}
+.grid path{
+    stroke: white;
+}

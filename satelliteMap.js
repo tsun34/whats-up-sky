@@ -1,10 +1,18 @@
 const dataPath = "./data/UCS-Satellite-Database-4-1-2020.csv";
+const uniqueVehiclePath = "./data/launchVehicleUnique.csv";
 
 document.addEventListener("DOMContentLoaded", function(){
 
+  let uniqueVehicle = [];
+
+  d3.csv(uniqueVehiclePath, function(vehicles){
+    vehicles.forEach(function(v){
+      uniqueVehicle.push(v.launchVehicle)
+    })
+  })
 
   const widthValue = 1000;
-  const heightValue = 3000;
+  const heightValue = 4000;
   
   // set dimensions and margin for display
   const margin = { top: 10, right: 20, bottom: 30, left: 50 };
@@ -14,9 +22,9 @@ document.addEventListener("DOMContentLoaded", function(){
   const svg = d3
               .select("#satellite-map")
               .append("svg")
-            //   .attr("viewBox", `0 0 ${widthValue} ${heightValue}`);
-              .attr("width", width + margin.left + margin.right)
-              .attr("height", height + margin.top + margin.bottom)
+              .attr("viewBox", `0 0 ${widthValue} ${heightValue}`);
+              // .attr("width", width + margin.left + margin.right)
+              // .attr("height", height + margin.top + margin.bottom)
 
   svg.append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
@@ -24,36 +32,36 @@ document.addEventListener("DOMContentLoaded", function(){
   // get data
   d3.csv(dataPath, function(data){
 
-      // console.log(data["Perigee (km)"]);
 
       //set x axis
-      const xScale = d3.scaleLinear()
-                      .domain([-180, 180])
-                      .range([0, width]);
-      const xAxis = svg.append("g")
-                      .attr("transform", `translate(0, ${height})`)
-                      .call(d3.axisBottom(xScale))//.ticks(width/80, ","))
-      //add x axis label
-    //   svg.append("text")
-    //       .attr("class", "x-label")
-    //       .attr("text-anchor", "end")
-    //       .attr("x", width)
-    //       .attr("y", height-5)
-    //       .attr("fill", "1e56a0")
+      const xScale = d3.scalePoint()
+                      .domain(uniqueVehicle)
+                      .range([40, Math.min(1000, width - 40)])
+                      .padding(0.6)
+                      .round(true)
+
+
+      // const xAxis = svg.append("g")
+      //                 .attr("transform", `translate(0, ${height})`)
+      //                 .call(d3.axisBottom(xScale))
+  
 
       // set y axis
-      const yScale = d3.scaleBand()
-                      .domain([200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 20000, 30000, 40000, 50000, 62200])
-                    // .domain([200, 60000])  
-                    .range([height, 0]);
+    const yScale = d3//.scaleSequential(d3.interpolator([0, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 20000, 30000, 40000, 50000, 62200]))
+                    .scaleLinear()
+                    .domain([1050, 180])
+                    .range([height, 0])
+                    // .nice()
+
       const yAxis = svg.append("g")
-                      .attr("transform", `translate(${width}, 0)`)
-                      .call(d3.axisLeft(yScale))//.ticks(height/80, ","));
+                      .attr("transform", `translate(${widthValue}, 0)`)
+                      .call(d3.axisLeft(yScale))
 
       // set bubble size
       const zScale = d3.scaleSqrt()
                       .domain([0, 20000])
-                      .range([1, 40])
+                      .range([5, 40])
+                      .clamp(true)
 
 
       //set bubble color
@@ -114,11 +122,11 @@ document.addEventListener("DOMContentLoaded", function(){
                 .style("opacity", 0)
       }
 
-      // // gridlines representing orbital height
-      // function make_orbit_height_gridlines() {
-      //     return d3.axisLeft(y)
-      //             .ticks(5)
-      // }
+      // gridlines representing orbital height
+      function make_orbit_height_gridlines() {
+          return d3.axisLeft(yScale)
+                  .ticks(10)
+      }
 
       // //format the data
       // data.forEach(function(d){
@@ -136,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function(){
           .enter()
           .append("circle")
               .attr("class", "bubbles")
-              .attr("cx", function (d) { return xScale(d.longitude); })
+              .attr("cx", function (d) { return xScale(d.launchVehicle); })
               .attr("cy", function (d) { return yScale(d.perigee); })
               .attr("r", function (d) { return zScale(d.mass); })
               .style("fill", function (d) { return dotColor(d.country); })
@@ -144,18 +152,15 @@ document.addEventListener("DOMContentLoaded", function(){
           .on("mousemove", moveTooltip)
           .on("mouseleave", hideTooltip)
 
-      // svg.append("g")
-      //     .attr("class", "grid")
-      //     .call(make_orbit_height_gridlines()
-      //         .tickSize(-height)
-      //         .tickFormat('')
-      //     );
+      svg.append("g")
+          .attr("class", "grid")
+          .call(make_orbit_height_gridlines()
+              .tickSize(-height)
+              .tickFormat('')
+          );
 
   });
 
-  // function MouseHover(){
-
-  // }
 
   // function SortBy(field){
 
