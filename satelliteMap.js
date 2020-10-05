@@ -34,11 +34,14 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
       //set x axis
-      const xScale = d3.scalePoint()
-                      .domain(uniqueVehicle)
-                      .range([40, Math.min(1000, width - 40)])
-                      .padding(0.6)
-                      .round(true)
+      const xScale = d3.scaleLinear()
+                        .domain([0,1])
+                        .range([40,Math.min(1000, width-40)])
+      //.scalePoint()
+      //                 .domain(uniqueVehicle)
+      //                 .range([40, Math.min(1000, width - 40)])
+      //                 .padding(0.6)
+      //                 .round(true)
 
 
       // const xAxis = svg.append("g")
@@ -144,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function(){
           .enter()
           .append("circle")
               .attr("class", "bubbles")
-              .attr("cx", function (d) { return xScale(d.launchVehicle); })
+              .attr("cx", function (d) { return xScale(Math.random());})// d.launchVehicle); })
               .attr("cy", function (d) { return yScale(d.perigee); })
               .attr("r", function (d) { return zScale(d.mass); })
               .style("fill", function (d) { return dotColor(d.country); })
